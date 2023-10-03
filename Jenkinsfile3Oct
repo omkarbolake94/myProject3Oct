@@ -19,7 +19,7 @@ stages{
 
 stage('Build Docker Image'){
  environment{
-  DOCKER_IMAGE = ${BUILD_NUMBER}
+  DOCKER_IMAGE = "${BUILD_NUMBER}"
  }
 
 steps{

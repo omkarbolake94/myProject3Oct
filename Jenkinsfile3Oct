@@ -1,11 +1,15 @@
 pipeline{
 
+ environment {
+        BUILD_NUM = ''
+
+    }
+
 agent{
 
 dockerfile {args '--user root -v /var/run/docker.sock:/var/run/docker.sock'}
 
 }
-
 
 stages{
  
@@ -18,13 +22,13 @@ stages{
  }
 
 stage('Build Docker Image'){
- environment{
-  DOCKER_IMAGE = "${BUILD_NUMBER}"
- }
+
 
 steps{
 script{
-sh 'docker build -t "v:${DOCKER_IMAGE}" -f Dockerfile2 .'
+def build_num1 = build_job.getNumber()
+BUILD_NUM = "${build_num1}"
+sh 'docker build -t "v:${BUILD_NUM}" -f Dockerfile2 .'
 }
 }
 

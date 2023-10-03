@@ -16,6 +16,16 @@ stages{
  
  }
 
+stage('Build Docker Image'){
+
+steps{
+
+sh 'docker build -t app.jar -f Dockerfile2 .'
+}
+
+}
+
+
 }
 
 }

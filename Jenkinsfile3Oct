@@ -20,7 +20,7 @@ stage('Build Docker Image'){
 
 steps{
 
-sh 'docker build -t app.jar -f Dockerfile2 .'
+sh 'docker build -t v:${BUILD_NUMBER} -f Dockerfile2 .'
 }
 
 }

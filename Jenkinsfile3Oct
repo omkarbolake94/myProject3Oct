@@ -23,8 +23,9 @@ DOCKER_IMAGE = "v:${BUILD_NUMBER}"
 }
 
 steps{
-
+script{
 sh 'docker build -t ${DOCKER_IMAGE} -f Dockerfile2 .'
+}
 }
 
 }

@@ -1,7 +1,7 @@
 pipeline{
 
  environment {
-        registry = omkarbolake94/my-images
+        registry = "omkarbolake94/my-images"
         DOCKER_CRED = credentials('dockerhub')
         cred = 'dockerhub'
 
@@ -26,7 +26,7 @@ stages{
 stage('Build and push Docker Image'){
  
 environment {
-DOCKER_IMAGE = "v:$BUILD_NUMBER"
+DOCKER_IMAGE = "omkarbolake94/my-images:$BUILD_NUMBER"
 }
 
 steps{

@@ -1,6 +1,7 @@
 pipeline{
 
  environment {
+        registry = omkarbolake94/my-images
         DOCKER_CRED = credentials('dockerhub')
 
     }

@@ -22,12 +22,15 @@ stages{
  }
 
 stage('Build Docker Image'){
-
+ 
+environment {
+DOCKER_IMAGE = "v:$BUILD_NUMBER"
+}
 
 steps{
 script{
-sh 'echo "$BUILD_NUMBER" '
-sh 'docker build -t "v:${BUILD_NUM}" -f Dockerfile2 .'
+sh 'echo "$DOCKER_IMAGE" '
+sh 'docker build -t "v:${DOCKER_IMAGE}" -f Dockerfile2 .'
 }
 }
 

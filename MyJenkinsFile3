@@ -1,0 +1,34 @@
+pipeline  {
+agent {
+dockerfile {args '--user root -v /var/run/docker.sock:/var/run/docker.sock'}
+}
+
+stages {
+
+stage ('Build') {
+steps {
+sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
+
+}
+}
+stage('Sonar Scanning'){
+steps{
+ withSonarQubeEnv('Sonarqube') {
+    sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar'
+}
+
+}
+}
+
+stage('Build Docker Image'){
+steps{
+script{
+
+sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t target/spring-boot-web.jar .'
+}
+
+}
+}
+
+}
+}

@@ -1,0 +1,59 @@
+pipeline{
+agent{
+docker
+    {
+	image 'centos:6.6'
+	 args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+	 
+	}
+	}
+	
+	stages
+	{
+stage('Installing'){
+
+steps{
+ sh 'dnf update -y'
+ sh 'dnf install java-11-openjdk-devel -y'
+ sh 'dnf install maven -y'
+ sh 'dnf install git -y'
+}
+
+}
+
+	    stage('Build and test'){
+	  
+	          steps {
+			          
+					  sh 'ls -lrt'
+					  sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
+			  
+			        }
+	
+	
+	       }
+		   
+	    stage('Sonar Code Analysis'){
+		
+		environment{
+		            SONAR_URL='http://184.73.150.133:9000/'
+		           }
+		
+		       steps {
+			   
+			   withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+                                                                                                   }
+			   
+			   
+			         }
+		
+		
+		
+		
+		}
+		   
+		   
+		   
+	}
+	}

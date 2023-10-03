@@ -1,0 +1,71 @@
+pipeline {
+
+agent{
+ 
+    dockerfile {args '--user root -v /var/run/docker.sock:/var/run/docker.sock'}
+ 
+}
+
+environment{
+
+registry = "omkarbolake94/myproject"
+registryCredential = 'dockerhub2'
+DOCKER_IMAGE = "v:${BUILD_NUMBER}"
+def dockerImage = docker.image("${DOCKER_IMAGE}")
+
+}
+
+stages {
+
+      stage('Build Stage'){
+	  
+	  steps{
+          sh 'mvn --version'
+	  sh 'pwd'
+	  sh 'mvn clean package'
+	  
+	  }
+	  
+	  
+	  }
+	  
+	  
+	  
+	  stage('Build Image'){
+
+
+	  
+	  steps {
+             
+             
+	  script {
+	  sh 'docker build -t ${DOCKER_IMAGE}  -f Dockerfile2 .'
+	
+       
+	  
+	  }
+	  
+	  }
+	  
+	  }
+	  
+	  stage('Upload Image to Dockerhub')
+	  {
+	  steps{
+	  script{
+	  
+	  docker.withRegistry('',registryCredential)
+	  {
+	  dockerImage.push('latest')
+	  }
+	  }
+	  }
+	  }
+	  
+	  
+	  
+	  
+   
+}
+
+}

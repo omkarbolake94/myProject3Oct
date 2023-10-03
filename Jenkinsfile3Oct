@@ -6,13 +6,6 @@ dockerfile {args '--user root -v /var/run/docker.sock:/var/run/docker.sock'}
 
 }
 
-environment{
-
-
-DOCKER_IMAGE = "v:${BUILD_NUMBER}"
-
-
-}
 
 stages{
  
@@ -25,6 +18,9 @@ stages{
  }
 
 stage('Build Docker Image'){
+environment{
+DOCKER_IMAGE = "v:${BUILD_NUMBER}"
+}
 
 steps{
 

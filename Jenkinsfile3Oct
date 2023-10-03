@@ -27,6 +27,7 @@ stage('Build and push Docker Image'){
  
 environment {
 DOCKER_IMAGE = "omkarbolake94/my-images:$BUILD_NUMBER"
+REGISTRY_CREDENTIALS = credentials('dockerhub')
 }
 
 steps{
@@ -35,7 +36,7 @@ sh 'echo "$DOCKER_IMAGE" '
 
 sh 'docker build -t "${DOCKER_IMAGE}" -f Dockerfile2 .'
 def dockerImage = docker.image("${DOCKER_IMAGE}")
- docker.withRegistry('', "dockerhub2") {
+ docker.withRegistry('', "dockerhub") {
   dockerImage.push("V$BUILD_NUMBER")
 dockerImage.push('latest')
 

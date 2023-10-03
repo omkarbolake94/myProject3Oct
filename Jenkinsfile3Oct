@@ -6,6 +6,14 @@ dockerfile {args '--user root -v /var/run/docker.sock:/var/run/docker.sock'}
 
 }
 
+environment{
+
+
+DOCKER_IMAGE = "v:${BUILD_NUMBER}"
+
+
+}
+
 stages{
  
  stage('Build Code'){
@@ -20,7 +28,7 @@ stage('Build Docker Image'){
 
 steps{
 
-sh 'docker build -t v:${BUILD_NUMBER} -f Dockerfile2 .'
+sh 'docker build -t ${DOCKER_IMAGE} -f Dockerfile2 .'
 }
 
 }
